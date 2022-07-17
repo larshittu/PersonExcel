@@ -1,0 +1,251 @@
+﻿@model PersonalExce.Helper.Data.Dto.PersonDto
+@{
+    ViewData["Title"] = "Pseson List";
+}
+
+<div class="text-center">
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">Persons List</h3>
+                    </div>
+                    <br />
+                    <div class="box-body">
+                        <form asp-controller="Home" asp-action="Import" method="post" enctype="multipart/form-data">
+                             <div class="row">
+                                <div class="col-md-6">
+                                    <input type="file" id="uploadexcel" name="uploadexcel" class="form-control" />
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="submit" class="btn-sm btn-primary" value="Upload file" id="Uploadfile" name="Uploadfile" />
+                                </div>
+                            </div>
+                        </form>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table id="personrecord" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>FirstName</th>
+                                            <th>Surname</th>
+                                            <th>Age</th>
+                                            <th>Sex</th>
+                                            <th>Mobile</th>
+                                            <th>Active</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.Persons)
+                                        {
+                                            <tr>
+                                                <td>@Html.DisplayFor(module => item.Id)</td>
+                                                <td>@Html.DisplayFor(module => item.FirstName)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.Surname)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.Age)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.Sex)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.Mobile)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.Active)</td>
+                                                <td>
+                                                    <a onclick="GetDetails(@item.Id)">
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>
+                                                    <a>
+                                                        @Html.ActionLink(" ", "DeletePerson", "Home", new { id = item.Id }, new { onclick = "return confirm('Are sure wants to delete?');", @class = "fa fa-trash-o" })
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    <tfoot>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="modal fade" id="modal-mrole">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="box-title"> New Person</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="box box-primary">
+                        @using (Html.BeginForm("InsertPerson", "Home", FormMethod.Post))
+                        {
+                            <div class="modal-body" style="height:600px">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Person Id :</label>
+                                        <input type="number" class="form-control" id="personid" name="Id" placeholder="Person Id">
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">First Name :</label>
+                                        <input type="text" class="form-control" id="FirstName" name="FirstName" placeholder="Enter First Name">
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Surname :</label>
+                                        <input type="text" class="form-control" id="Surname" name="Surname" placeholder="Enter Surname">
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Age:</label>
+                                        <input type="number" class="form-control" id="Age" name="Age" placeholder="Enter your age">
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Sex:</label>
+                                        <select class="form-control" name="Sex" id="ddlSex">
+                                            <option value="">Select Sex</option>
+                                            <option value="M">Male</option>
+                                            <option value="F">Female</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Mobile:</label>
+                                        <input type="text" class="form-control" id="Mobile" name="Mobile" placeholder="Enter Mobile No">
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Active:</label>
+                                        <input type="checkbox" class="form-control" id="Active" name="Active">
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal-Update">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="box-title"> Update Person</h3>
+                </div>
+                <div class="modal-body" style="height:600px">
+                    <div class="box box-primary">
+                        @using (Html.BeginForm("UpdatePerson", "Home", FormMethod.Post))
+                        {
+                            <div class="modal-body">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <input type="hidden" id="hideupdateId" name="Id">
+                                        <label for="exampleInputEmail1">First Name :</label>
+                                        <input type="text" class="form-control" id="txtupdateFirstName" name="FirstName" placeholder="First Name">
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Surname :</label>
+                                        <input type="text" class="form-control" id="txtupdateSurname" name="Surname" placeholder="Enter Surname">
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Age:</label>
+                                        <input type="number" class="form-control" id="txtupdateAge" name="Age" placeholder="enter your age">
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Sex:</label>
+                                        <select class="form-control" name="Sex" id="ddlupdateSex">
+                                            <option value="">Select Sex</option>
+                                            <option value="M">Male</option>
+                                            <option value="F">Female</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="txtupdateMobile">Mobile:</label>
+                                        <input type="text" class="form-control" id="txtupdateMobile" name="Mobile" placeholder="Enter Mobile No">
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Active:</label>
+                                        <input type="checkbox" class="form-control" id="txtupdateActive" name="Active">
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Update</button>
+                                <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#modal-mrole" style="margin-right:20px; ">
+        Add New Person
+    </button>
+</div>
+@section Scripts{
+
+    <script>
+        $(function() {
+            $('#personrecord').DataTable();
+        })
+        function GetDetails(id) {
+            $.ajax({
+                url: "/Home/EditPerson/" + id,
+                typr: "GET",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                success: function(response) {
+
+                    console.log(response);
+
+                    $('#hideupdateId').val(response.id);
+                    $('#txtupdateFirstName').val(response.firstName);
+                    $('#txtupdateSurname').val(response.surname);
+                    $('#txtupdateAge').val(response.age);
+                    $('#ddlupdateSex').val(response.sex);
+                    $('#txtupdateMobile').val(response.mobile);
+                    $('#txtupdateActive').prop('checked', response.active);
+                    $('#modal-Update').modal('show');
+
+                },
+                error: function(response) {
+                    alert(response.responseText);
+                }
+            });
+            return false;
+        }
+    </script>
+}
