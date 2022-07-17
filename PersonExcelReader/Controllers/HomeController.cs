@@ -136,7 +136,7 @@ namespace PersonalExeclReader.Controllers
 
                         if (rows[3].Any(c => char.IsLetter(c)))
                         {
-                            errorMsg = $"Age can only be number at row {recordCount} \n";
+                            errorMsg = $"\nAge can only be number at row {recordCount} \n";
                         }
                         else
                         {
@@ -148,7 +148,7 @@ namespace PersonalExeclReader.Controllers
                             var sexValue = rows[4].ToString().Trim();
                             if (sexValue.Any(c => char.IsDigit(c)))
                             {
-                                errorMsg = $"Sex can only be Character at row {recordCount}\n";
+                                errorMsg = $"\nSex can only be Character at row {recordCount}\n";
                             }
                             else if (sexValue == "M" || sexValue == "F")
                             {
@@ -156,7 +156,7 @@ namespace PersonalExeclReader.Controllers
                             }
                             else
                             {
-                                errorMsg = $"Sex can only be M or F  at row {recordCount}\n";
+                                errorMsg = $"\nSex can only be M or F  at row {recordCount}\n";
                             }
                         }
 
@@ -164,7 +164,7 @@ namespace PersonalExeclReader.Controllers
                         {
                             if (rows[5].Any(c => char.IsLetter(c)))
                             {
-                                errorMsg = $"Mobile can only be number at row {recordCount}\n";
+                                errorMsg = $"\nMobile can only be number at row {recordCount}\n";
                             }
                             else
                             {
@@ -181,12 +181,12 @@ namespace PersonalExeclReader.Controllers
                             }
                             else
                             {
-                                errorMsg = $"Active can only be TRUE or FAlSE at row {recordCount}\n";
+                                errorMsg = $"\nActive can only be TRUE or FAlSE at row {recordCount}\n";
                             }
                         }
                         else
                         {
-                            errorMsg = $"Active can be empty at row {recordCount}\n";
+                            errorMsg = $"\nActive can be empty at row {recordCount}\n";
                         }
 
                         if (!string.IsNullOrEmpty(errorMsg))
@@ -244,6 +244,11 @@ namespace PersonalExeclReader.Controllers
             }
         }
 
+        /// <summary>
+        /// Get Person information for Editing by Person Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public JsonResult EditPerson(int? id)
         {
             var person = _personal.Fetch().Result.Find(x => x.Id.Equals(id));
@@ -276,6 +281,11 @@ namespace PersonalExeclReader.Controllers
             }
         }
 
+        /// <summary>
+        /// Delete the person information by person Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public IActionResult DeletePerson(int id)
         {
             try

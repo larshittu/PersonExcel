@@ -3,6 +3,9 @@ using PersonalExeclReader.Data.Entity;
 
 namespace PersonalExeclReader.Data.DAL
 {
+    /// <summary>
+    /// Person Database Context and Table
+    /// </summary>
     public partial class PersonalContext : DbContext
     {
 
